@@ -1,0 +1,7 @@
+{
+  "destinationFolder": "dist",
+  "exportFileName": "react-in-style",
+  "entryFileName": "react-in-style",
+  "exportVarName": "ReactStyle",
+  "mochaGlobals": ["stub", "spy", "expect"]
+}
