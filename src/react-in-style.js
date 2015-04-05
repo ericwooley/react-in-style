@@ -1,10 +1,14 @@
 /* global console */
 class ReactInStyle {
     constructor(options){
+        this.setOptions(options);
+        this.requestAnimationFrame = requestAnimationFrame || function(inc){return inc();};
+        this.init();   
+    }
+    setOptions(options){
         options = options || {};
         this.options = options;
         this.options.document = options.document || document;
-        this.init();   
     }
     init(){
        this.unApliedStyles = {};
@@ -20,7 +24,7 @@ class ReactInStyle {
     initStyleTag(){
         this.styleTag = document.createElement('style');
         this.styleTag.id='react-in-style';
-        requestAnimationFrame(() => {
+        this.requestAnimationFrame(() => {
             document.getElementsByTagName('head')[0].appendChild(this.styleTag);
         });
     }
@@ -38,7 +42,7 @@ class ReactInStyle {
     }
 
     applyStyles(){
-        requestAnimationFrame(this.renderStyles.bind(this));
+        this.requestAnimationFrame(this.renderStyles.bind(this));
     }
     renderStyles(){
         Object.keys(this.unApliedStyles).forEach((selector) => {
