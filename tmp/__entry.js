@@ -10,6 +10,7 @@ var ReactInStyle = (function () {
     function ReactInStyle(options) {
         _classCallCheck(this, ReactInStyle);
 
+        options = options || {};
         this.options = options;
         this.options.document = options.document || document;
         this.init();

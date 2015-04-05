@@ -1,6 +1,7 @@
 /* global console */
 class ReactInStyle {
     constructor(options){
+        options = options || {};
         this.options = options;
         this.options.document = options.document || document;
         this.init();   
