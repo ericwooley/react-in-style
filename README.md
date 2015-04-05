@@ -70,7 +70,7 @@ produces in $('head style#react-in-style')
     - add(class, selector, force)
         1. The class with the style object (attached via object.prototype.style)
         2. The selector for the style.
-        3. (Force) true/false: If the selector already has a style, an error will be thrown, unless true is passed in as the force option.
+        3. (Force) true/false: If the selector already has a style, an console error message will appear, unless true is passed in as the force option.
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
