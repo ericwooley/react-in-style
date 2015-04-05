@@ -10,6 +10,7 @@ const esperanto = require('esperanto');
 const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
+const connect = require('gulp-connect');
 
 // Adjust this file to configure the build
 const config = require('./config');
@@ -100,7 +101,7 @@ gulp.task('compile_browser_script', function() {
 
 // Bundle our app for our unit tests
 gulp.task('browserify', ['compile_browser_script'], function() {
-  var bundleStream = browserify(['./test/setup/browserify.js']).bundle();
+  var bundleStream = browserify(['./test/setup/browserify.js'], {debug: true}).bundle();
   return bundleStream
     .on('error', function(err){
       console.log(err.message);
@@ -142,8 +143,14 @@ gulp.task('build_in_sequence', function(callback) {
   runSequence(['lint:src', 'lint:test'], 'browserify', callback);
 });
 
+gulp.task('test-server', function(){
+  return connect.server({
+    root: '',
+    livereload: false
+  });
+});
 // Set up a livereload environment for our spec runner
-gulp.task('test:browser', ['build_in_sequence'], function() {
+gulp.task('test:browser', ['test-server', 'build_in_sequence'], function() {
   $.livereload.listen({port: 35729, host: 'localhost', start: true});
   return gulp.watch(['src/**/*.js', 'test/**/*', '.jshintrc', 'test/.jshintrc', 'config/index.json'], ['build_in_sequence']);
 });

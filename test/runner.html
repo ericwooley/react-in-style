@@ -7,6 +7,9 @@
 
   <!-- Polyfill (required by babel) -->
   <script src='../node_modules/babel/browser-polyfill.js'></script>
+  <!-- <script src='../node_modules/babel/browser.js'></script> -->
+  <!-- <script src='../node_modules/react/dist/JSXTransformer.js'></script> -->
+  <script src='../node_modules/react/dist/react-with-addons.js'></script>
 
   <!-- Testing libraries -->
   <script src='../node_modules/mocha/mocha.js'></script>
@@ -21,10 +24,11 @@
   <script src='../tmp/__spec-build.js'></script>
 
   <!-- Add your tests here -->
-  <script src='unit/index.js'></script>
+  <script src='unit/react-in-style.js'></script>
 </head>
 <body>
   <!-- Required for browser reporter -->
   <div id='mocha'></div>
+  <div id='playground'></div>
 </body>
 </html>

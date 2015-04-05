@@ -15,7 +15,7 @@
   "plusplus"      : false,
   "quotmark"      : "single",
   "undef"         : true,
-  "unused"        : true,
+  "unused"        : false,
   "strict"        : false,
   "trailing"      : true,
   "maxparams"     : 4,
@@ -64,7 +64,7 @@
   "wsh"           : false,
   "yui"           : false,
   "globals": {
-    "ReactStyle": true,
+    "ReactInStyle": true,
     "console": true,
     "sinon": true,
     "spy": true,
