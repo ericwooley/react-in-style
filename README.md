@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ericwooley/react-in-style.svg)](https://travis-ci.org/ericwooley/react-in-style)
+
 # react-in-style
 
 Style react components by generating a style tag for all react components in a sass-like fassion.
