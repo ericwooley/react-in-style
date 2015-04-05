@@ -6,9 +6,8 @@ Style react components by generating a style tag for all react components in a s
 ## Motivation
 
 This project was started as an alternative to react style because of it's inabilty to reasonably handle 
-hover states. React style also appends styles as a style element. Instead we are reacting in style, allowing you
+css states. React style also attaches styles as a style attribute. Instead we are reacting in style, allowing you
 to define how your component should look, and creating a style tag in the head of the page which defines your component.
-
 
 ## Installing
 
@@ -45,6 +44,10 @@ Pic = React.createClass({
  // The second argument is the selector for your element.
  ReactInStyle.add(Pic, 'customelement');
  ```
+ produces in $('head style#react-in-style')
+> customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
+> customelement img {height: '50px'}
+> customelement:hover {background-color: 'blue'}
 
 ## API
 
