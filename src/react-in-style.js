@@ -43,7 +43,7 @@ class ReactInStyle {
     }
     add(reactClass, selector, force = false){
         if(this.appliedStyles[selector] && !force) {
-            throw new Error('selector ' + selector + ' already has styles applied');
+            this.log(()=> console.error('selector ' + selector + ' already has styles applied'));
         }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         // find a way to do this without being in an animationFrame
@@ -63,7 +63,7 @@ class ReactInStyle {
             delete this.unApliedStyles[selector];
             this.appliedStyles[selector] = style;
             var styleString = this.objToCss(style, selector);
-            this.styleTag.innerHTML += styleString;
+            this.styleTag.innerHTML += styleString + '\n';
         });
     }
     log(f){
