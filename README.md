@@ -12,8 +12,7 @@ Style react components by generating a style tag for all react components in a s
 ## Motivation
 
 This project was started as an alternative to react style because of it's inabilty to reasonably handle 
-css states. React style also attaches styles as a style attribute. Instead we are reacting in style, allowing you
-to define how your component should look, and creating a style tag in the head of the page which defines your component.
+css states. Instead we are reacting in style, allowing you to define how your component should look, and creating a style tag in the head of the page which defines your component, hover states and all.
 
 ## Installing
 
