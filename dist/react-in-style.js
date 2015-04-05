@@ -13,13 +13,46 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
         function ReactInStyle(options) {
             _classCallCheck(this, ReactInStyle);
 
-            options = options || {};
-            this.options = options;
-            this.options.document = options.document || document;
+            this.setOptions(options);
+            if (typeof requestAnimationFrame === "undefined") {
+                this.requestAnimationFrame = function (inc) {
+                    return inc();
+                };
+            } else {
+                this.requestAnimationFrame = function (func) {
+                    requestAnimationFrame(func);
+                };
+            }
             this.init();
         }
 
         _createClass(ReactInStyle, {
+            requestAnimationFrame: {
+                value: (function (_requestAnimationFrame) {
+                    var _requestAnimationFrameWrapper = function requestAnimationFrame(_x) {
+                        return _requestAnimationFrame.apply(this, arguments);
+                    };
+
+                    _requestAnimationFrameWrapper.toString = function () {
+                        return _requestAnimationFrame.toString();
+                    };
+
+                    return _requestAnimationFrameWrapper;
+                })(function (func) {
+                    if (typeof requestAnimationFrame === "undefined") {
+                        func();
+                    } else {
+                        requestAnimationFrame(func);
+                    }
+                })
+            },
+            setOptions: {
+                value: function setOptions(options) {
+                    options = options || {};
+                    this.options = options;
+                    this.options.document = options.document || document;
+                }
+            },
             init: {
                 value: function init() {
                     this.unApliedStyles = {};
@@ -41,7 +74,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
                     this.styleTag = document.createElement("style");
                     this.styleTag.id = "react-in-style";
-                    requestAnimationFrame(function () {
+                    this.requestAnimationFrame(function () {
                         document.getElementsByTagName("head")[0].appendChild(_this.styleTag);
                     });
                 }
@@ -51,7 +84,9 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                     var force = arguments[2] === undefined ? false : arguments[2];
 
                     if (this.appliedStyles[selector] && !force) {
-                        throw new Error("selector " + selector + " already has styles applied");
+                        this.log(function () {
+                            return console.error("selector " + selector + " already has styles applied");
+                        });
                     }
                     this.unApliedStyles[selector] = reactClass.prototype.style;
                     // find a way to do this without being in an animationFrame
@@ -64,7 +99,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
             },
             applyStyles: {
                 value: function applyStyles() {
-                    requestAnimationFrame(this.renderStyles.bind(this));
+                    this.requestAnimationFrame(this.renderStyles.bind(this));
                 }
             },
             renderStyles: {
@@ -76,9 +111,15 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         delete _this.unApliedStyles[selector];
                         _this.appliedStyles[selector] = style;
                         var styleString = _this.objToCss(style, selector);
-                        _this.styleTag.innerHTML += styleString;
-                        console.log("computed style ---------------\n", styleString);
+                        _this.styleTag.innerHTML += styleString + "\n";
                     });
+                }
+            },
+            log: {
+                value: function log(f) {
+                    if (console) {
+                        f();
+                    }
                 }
             },
             objToCss: {
@@ -89,7 +130,6 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                     var styles = arguments[2] === undefined ? [] : arguments[2];
 
                     var rootStyle = "";
-                    console.log("generating style for ", style, rootSelector);
                     Object.keys(style).forEach(function (key) {
                         if (typeof style[key] !== "object") {
                             rootStyle += key + ":" + style[key] + "; ";
@@ -98,14 +138,12 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                             if (key[0] === ":") {
                                 spacer = "";
                             }
-                            console.log(style[key], spacer);
+
                             var newKey = rootSelector + spacer + key;
                             _this.objToCss(style[key], newKey, styles);
                         }
                     });
                     styles.unshift(rootSelector.trim() + "{" + rootStyle.trim() + "}");
-                    console.log(rootSelector, styles);
-                    console.groupEnd();
                     return styles.join("\n");
                 }
             }
