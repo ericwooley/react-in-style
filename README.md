@@ -20,6 +20,7 @@ Right now this has only been tested on an es6 enviornment. Testing is happening 
 
 
 ```javascript
+
 var ReactInStyle = require('react-in-style');
 Pic = React.createClass({
     style: {
@@ -46,6 +47,8 @@ Pic = React.createClass({
  });
  // The second argument is the selector for your element.
  ReactInStyle.add(Pic, 'customelement');
+
+ module.exports = Pic;
  ```
 
 produces in $('head style#react-in-style')
@@ -67,7 +70,8 @@ produces in $('head style#react-in-style')
 
 ## Running the unit tests
 
-`open 'http://localhost:8080' && gulp test:browser`
+`open 'http://localhost:8080/test/runner.html' && gulp test:browser` (may need to refresh once after it loads.)
+
 
 
 # Contributing
