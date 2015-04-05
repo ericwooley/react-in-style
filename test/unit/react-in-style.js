@@ -44,7 +44,7 @@ describe('react-in-style', function() {
             ReactInStyle.add(Pic, 'sadman');
 
             expect(ReactInStyle.styleTag.innerHTML)
-                .to.equal('sadman{height:100px; width:100px; background-color:red;}\nsadman img{width:50px; height:50px;}x');
+                .to.equal('sadman{height:100px; width:100px; background-color:red;}\nsadman img{width:50px; height:50px;}');
 
         });
         it('should not have duplicates', function() {
