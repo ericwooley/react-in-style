@@ -2,6 +2,7 @@
 class ReactInStyle {
     constructor(options){
         this.options = options;
+        this.options.document = options.document || document;
         this.init();   
     }
     init(){

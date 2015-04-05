@@ -11,6 +11,7 @@ var ReactInStyle = (function () {
         _classCallCheck(this, ReactInStyle);
 
         this.options = options;
+        this.options.document = options.document || document;
         this.init();
     }
 
