@@ -56,13 +56,18 @@ Pic = React.createClass({
  module.exports = Pic;
  ```
 
-produces in $('head style#react-in-style')
-
-> customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
-
-> customelement img {height: '50px'} 
-
-> customelement:hover {background-color: 'blue'}
+```html
+<html>
+    <head>
+    ...
+        <style id="react-in-style">
+            customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
+            customelement img {height: '50px'} 
+            customelement:hover {background-color: 'blue'}
+        </style>    
+    </head>
+</html>
+```
 
 ## API
 
