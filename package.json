@@ -1,6 +1,6 @@
 {
   "name": "react-in-style",
-  "version": "0.0.124",
+  "version": "0.0.125",
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
   "scripts": {

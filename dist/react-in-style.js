@@ -14,15 +14,6 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
             _classCallCheck(this, ReactInStyle);
 
             this.setOptions(options);
-            if (typeof requestAnimationFrame === "undefined") {
-                this.requestAnimationFrame = function (inc) {
-                    return inc();
-                };
-            } else {
-                this.requestAnimationFrame = function (func) {
-                    requestAnimationFrame(func);
-                };
-            }
             this.init();
         }
 
