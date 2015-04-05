@@ -2,8 +2,21 @@
 class ReactInStyle {
     constructor(options){
         this.setOptions(options);
-        this.requestAnimationFrame = requestAnimationFrame || function(inc){return inc();};
+        if(typeof requestAnimationFrame === 'undefined'){
+            this.requestAnimationFrame =  function(inc){return inc();};
+        } else {
+            this.requestAnimationFrame = function(func){
+                requestAnimationFrame(func);
+            };
+        }
         this.init();   
+    }
+    requestAnimationFrame(func){
+        if(typeof requestAnimationFrame === 'undefined'){
+            func();
+        } else {
+            requestAnimationFrame(func);
+        }
     }
     setOptions(options){
         options = options || {};
@@ -51,12 +64,15 @@ class ReactInStyle {
             this.appliedStyles[selector] = style;
             var styleString = this.objToCss(style, selector);
             this.styleTag.innerHTML += styleString;
-            console.log('computed style ---------------\n', styleString);
         });
+    }
+    log(f){
+        if(console){
+            f();
+        }
     }
     objToCss(style, rootSelector='', styles = []) {
         var rootStyle = '';
-        console.log('generating style for ', style, rootSelector);
         Object.keys(style).forEach((key) => {
             if(typeof style[key] !== 'object'){
                 rootStyle += key + ':' + style[key]+'; '; 
@@ -65,14 +81,12 @@ class ReactInStyle {
                if(key[0] === ':'){
                    spacer = '';
                }
-               console.log(style[key], spacer);
+               
                var newKey = rootSelector + spacer + key;
                this.objToCss(style[key], newKey, styles);    
             }
         });
         styles.unshift(rootSelector.trim() + '{' + rootStyle.trim() + '}');
-        console.log(rootSelector, styles);
-        console.groupEnd();
         return styles.join('\n');
     }
 }

@@ -10,13 +10,46 @@ var ReactInStyle = (function () {
     function ReactInStyle(options) {
         _classCallCheck(this, ReactInStyle);
 
-        options = options || {};
-        this.options = options;
-        this.options.document = options.document || document;
+        this.setOptions(options);
+        if (typeof requestAnimationFrame === "undefined") {
+            this.requestAnimationFrame = function (inc) {
+                return inc();
+            };
+        } else {
+            this.requestAnimationFrame = function (func) {
+                requestAnimationFrame(func);
+            };
+        }
         this.init();
     }
 
     _createClass(ReactInStyle, {
+        requestAnimationFrame: {
+            value: (function (_requestAnimationFrame) {
+                var _requestAnimationFrameWrapper = function requestAnimationFrame(_x) {
+                    return _requestAnimationFrame.apply(this, arguments);
+                };
+
+                _requestAnimationFrameWrapper.toString = function () {
+                    return _requestAnimationFrame.toString();
+                };
+
+                return _requestAnimationFrameWrapper;
+            })(function (func) {
+                if (typeof requestAnimationFrame === "undefined") {
+                    func();
+                } else {
+                    requestAnimationFrame(func);
+                }
+            })
+        },
+        setOptions: {
+            value: function setOptions(options) {
+                options = options || {};
+                this.options = options;
+                this.options.document = options.document || document;
+            }
+        },
         init: {
             value: function init() {
                 this.unApliedStyles = {};
@@ -38,7 +71,7 @@ var ReactInStyle = (function () {
 
                 this.styleTag = document.createElement("style");
                 this.styleTag.id = "react-in-style";
-                requestAnimationFrame(function () {
+                this.requestAnimationFrame(function () {
                     document.getElementsByTagName("head")[0].appendChild(_this.styleTag);
                 });
             }
@@ -61,7 +94,7 @@ var ReactInStyle = (function () {
         },
         applyStyles: {
             value: function applyStyles() {
-                requestAnimationFrame(this.renderStyles.bind(this));
+                this.requestAnimationFrame(this.renderStyles.bind(this));
             }
         },
         renderStyles: {
@@ -74,8 +107,14 @@ var ReactInStyle = (function () {
                     _this.appliedStyles[selector] = style;
                     var styleString = _this.objToCss(style, selector);
                     _this.styleTag.innerHTML += styleString;
-                    console.log("computed style ---------------\n", styleString);
                 });
+            }
+        },
+        log: {
+            value: function log(f) {
+                if (console) {
+                    f();
+                }
             }
         },
         objToCss: {
@@ -86,7 +125,6 @@ var ReactInStyle = (function () {
                 var styles = arguments[2] === undefined ? [] : arguments[2];
 
                 var rootStyle = "";
-                console.log("generating style for ", style, rootSelector);
                 Object.keys(style).forEach(function (key) {
                     if (typeof style[key] !== "object") {
                         rootStyle += key + ":" + style[key] + "; ";
@@ -95,14 +133,12 @@ var ReactInStyle = (function () {
                         if (key[0] === ":") {
                             spacer = "";
                         }
-                        console.log(style[key], spacer);
+
                         var newKey = rootSelector + spacer + key;
                         _this.objToCss(style[key], newKey, styles);
                     }
                 });
                 styles.unshift(rootSelector.trim() + "{" + rootStyle.trim() + "}");
-                console.log(rootSelector, styles);
-                console.groupEnd();
                 return styles.join("\n");
             }
         }
