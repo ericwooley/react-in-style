@@ -72,7 +72,7 @@ produces in $('head style#react-in-style')
 
 ## Running the unit tests
 
-`open 'http://localhost:8080/test/runner.html' && gulp test:browser` (may need to refresh once after it loads.)
+`open 'test/runner.html' && gulp test:browser` (may need to refresh once after it loads.)
 
 
 
