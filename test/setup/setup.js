@@ -1,5 +1,6 @@
 module.exports = function() {
   global.expect = global.chai.expect;
+  global.React = require('../../node_modules/react/react');
   beforeEach(function() {
     this.sandbox = global.sinon.sandbox.create();
     global.stub = this.sandbox.stub.bind(this.sandbox);

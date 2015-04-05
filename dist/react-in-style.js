@@ -50,7 +50,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                 value: function setOptions(options) {
                     options = options || {};
                     this.options = options;
-                    this.options.document = options.document || document;
+                    this.inBrowser = typeof document !== "undefined";
                 }
             },
             init: {
@@ -72,10 +72,19 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                 value: function initStyleTag() {
                     var _this = this;
 
-                    this.styleTag = document.createElement("style");
+                    if (this.inBrowser) {
+                        this.styleTag = document.createElement("style");
+                    } else {
+                        // for unit tests
+                        this.styleTag = {
+                            innerHTML: ""
+                        };
+                    }
                     this.styleTag.id = "react-in-style";
                     this.requestAnimationFrame(function () {
-                        document.getElementsByTagName("head")[0].appendChild(_this.styleTag);
+                        if (_this.inBrowser) {
+                            document.getElementsByTagName("head")[0].appendChild(_this.styleTag);
+                        }
                     });
                 }
             },

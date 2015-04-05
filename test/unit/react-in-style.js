@@ -1,6 +1,8 @@
 /* globals React */
 function render(item) {
-    React.render(item.render(), document.getElementById('playground'));
+    if(typeof document !== 'undefined'){
+        React.render(item.render(), document.getElementById('playground'));
+    }
 }
 describe('react-in-style', function() {
     beforeEach(function() {

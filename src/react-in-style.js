@@ -21,7 +21,7 @@ class ReactInStyle {
     setOptions(options){
         options = options || {};
         this.options = options;
-        this.options.document = options.document || document;
+        this.inBrowser = typeof document !== 'undefined';
     }
     init(){
        this.unApliedStyles = {};
@@ -35,10 +35,19 @@ class ReactInStyle {
         this.init();
     }
     initStyleTag(){
-        this.styleTag = document.createElement('style');
+        if(this.inBrowser) {
+            this.styleTag = document.createElement('style');
+        } else {
+            // for unit tests
+            this.styleTag = {
+                innerHTML: ''
+            };
+        }
         this.styleTag.id='react-in-style';
         this.requestAnimationFrame(() => {
-            document.getElementsByTagName('head')[0].appendChild(this.styleTag);
+            if(this.inBrowser){
+                document.getElementsByTagName('head')[0].appendChild(this.styleTag);
+            }
         });
     }
     add(reactClass, selector, force = false){
