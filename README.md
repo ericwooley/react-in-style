@@ -20,7 +20,7 @@ to define how your component should look, and creating a style tag in the head o
 
 ### Example Usage
 
-Right now this has only been tested on an es6 enviornment. Testing is happening today to make sure it works everywhere.
+Right now this has only been tested on an es6 enviornment. Testing is happening <s>today</s> to make sure it works everywhere.
 
 
 ```javascript
