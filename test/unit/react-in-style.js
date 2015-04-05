@@ -30,13 +30,16 @@ describe('react-in-style', function() {
             });
             // render(new Pic());
         });
+        afterEach(function(){
+            render(new Pic());
+        });
         it('should style a page', function() {
             ReactInStyle.add(Pic, 'sadman');
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal('sadman{height:100px; width:100px; background-color:red;}');
             
         });
-        it('should style a page recursively', function() {
+        it('recursively should style a page', function() {
             Pic.prototype.style.img = {
                 width: '50px',
                 height: '50px'
