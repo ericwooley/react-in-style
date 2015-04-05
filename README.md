@@ -44,9 +44,11 @@ Pic = React.createClass({
  // The second argument is the selector for your element.
  ReactInStyle.add(Pic, 'customelement');
  ```
- produces in $('head style#react-in-style')
+
+produces in $('head style#react-in-style')
+
 > customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
-> customelement img {height: '50px'}
+> customelement img {height: '50px'} 
 > customelement:hover {background-color: 'blue'}
 
 ## API
