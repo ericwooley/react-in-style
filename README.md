@@ -6,6 +6,8 @@ Unit tests work in IE9+ however, this library has not been battle tested, and pr
 
 # react-in-style
 
+[![Join the chat at https://gitter.im/ericwooley/react-in-style](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ericwooley/react-in-style?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Style react components by generating a style tag for all react components in a sass-like fassion.
 
 --------------------------------------------------------------------------------------------------
