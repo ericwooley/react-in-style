@@ -55,6 +55,42 @@ describe('react-in-style', function() {
                 .to.equal(stylizedString+'sadman img{width:50px; height:50px;}\n');
 
         });
+        it('recursively should style a page at depth 3', function() {
+            Pic = React.createClass({
+                style: {
+                    height: '100px',
+                    width: '100px',
+                    display: 'block',
+                    'border': '20px solid red',
+                    div: {
+                        border: '20px solid green',
+                        img: {
+                            height: '40px',
+                            width:'40px',
+                            border: '10px solid orange'
+                        }
+                    }
+                },
+                render: function() {
+                    return (
+                        React.createElement('SadMan', null,
+                            React.createElement('div', null,
+                                React.createElement('img', {
+                                    src: 'http://i.imgur.com/dYJLWdn.jpg',
+                                    height: 75
+                                })
+                            )
+                        )
+                    );
+                }
+            });
+            ReactInStyle.add(Pic, 'sadman');
+            /* jshint ignore:start */
+            expect(ReactInStyle.styleTag.innerHTML)
+                
+                .to.equal('sadman{height:100px; width:100px; display:block; border:20px solid red;}\nsadman div{border:20px solid green;}\nsadman div img{height:40px; width:40px; border:10px solid orange;}\n');
+                /* jshint ignore:end */
+        });
         it('should allow duplicates', function() {
             ReactInStyle.add(Pic, 'sadman');
             Pic.prototype.style = {
