@@ -13,6 +13,13 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
         prefix: false,
         requestAnimationFrame: true
     };
+    function toKebab(str) {
+        str = str.replace(/([A-Z])/g, "-$1").toLowerCase();
+        if (str[0] === "-") {
+            return str.substring(1);
+        }
+        return str;
+    }
 
     var ReactInStyle = (function () {
         function ReactInStyle(options) {
@@ -25,7 +32,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
         _createClass(ReactInStyle, {
             requestAnimationFrame: {
                 value: (function (_requestAnimationFrame) {
-                    var _requestAnimationFrameWrapper = function requestAnimationFrame(_x) {
+                    var _requestAnimationFrameWrapper = function requestAnimationFrame(_x, _x2) {
                         return _requestAnimationFrame.apply(this, arguments);
                     };
 
@@ -34,8 +41,8 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                     };
 
                     return _requestAnimationFrameWrapper;
-                })(function (func) {
-                    if (typeof requestAnimationFrame === "undefined") {
+                })(function (func, doItNow) {
+                    if (doItNow || typeof requestAnimationFrame === "undefined") {
                         func();
                     } else {
                         requestAnimationFrame(func);
@@ -94,21 +101,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         });
                     }
                     this.unApliedStyles[selector] = reactClass.prototype.style;
-                    // find a way to do this without being in an animationFrame
-                    if (options.requestAnimationFrame) {
-                        this.applyStyles(options);
-                    } else {
-                        this.renderStyles(options);
-                    }
-                }
-            },
-            applyStyles: {
-                value: function applyStyles(options) {
-                    var _this = this;
-
-                    this.requestAnimationFrame(function () {
-                        return _this.renderStyles(options);
-                    });
+                    this.renderStyles(options);
                 }
             },
             renderStyles: {
@@ -123,7 +116,9 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         if (options.prefix) {
                             styleString = autoprefixer.process(styleString).css;
                         }
-                        _this.styleTag.innerHTML += styleString + "\n";
+                        _this.requestAnimationFrame(function () {
+                            return _this.styleTag.innerHTML += styleString + "\n";
+                        }, !options.requestAnimationFrame);
                     });
                 }
             },
@@ -155,7 +150,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         }
                         selector = selector.replace(/&/g, rootSelector);
                         if (typeof style[key] !== "object") {
-                            rootStyle += key + ":" + style[key] + "; ";
+                            rootStyle += toKebab(key) + ":" + style[key] + "; ";
                         } else {
                             if (firstLetter === ":") {
                                 spacer = "";

@@ -17,8 +17,8 @@ class ReactInStyle {
         this.setOptions(options);
         this.init();
     }
-    requestAnimationFrame(func) {
-        if (typeof requestAnimationFrame === 'undefined') {
+    requestAnimationFrame(func, doItNow) {
+        if (doItNow || typeof requestAnimationFrame === 'undefined') {
             func();
         } else {
             requestAnimationFrame(func);
@@ -65,17 +65,7 @@ class ReactInStyle {
                     ' already has styles applied'));
         }
         this.unApliedStyles[selector] = reactClass.prototype.style;
-        // find a way to do this without being in an animationFrame
-        if(options.requestAnimationFrame) {
-            this.applyStyles(options);
-        } else {
-            this.renderStyles(options);
-        }
-            
-    }
-
-    applyStyles(options) {
-        this.requestAnimationFrame(() => this.renderStyles(options));
+        this.renderStyles(options);       
     }
     renderStyles(options) {
         Object.keys(this.unApliedStyles).forEach((selector) => {
@@ -86,7 +76,11 @@ class ReactInStyle {
             if(options.prefix){
                 styleString = autoprefixer.process(styleString).css;
             }
-            this.styleTag.innerHTML += styleString + '\n';
+            this.requestAnimationFrame(
+                ()=> this.styleTag.innerHTML += styleString + '\n',
+                !options.requestAnimationFrame
+            );
+            
         });
     }
     log(f) {
