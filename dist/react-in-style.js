@@ -138,7 +138,6 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         if (firstLetter === "&") {
                             spacer = "";
                             selector = key.substring(1);
-                            console.log(selector);
                         }
                         selector = selector.replace(/&/g, rootSelector);
                         if (typeof style[key] !== "object") {
