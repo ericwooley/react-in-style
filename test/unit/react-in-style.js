@@ -138,6 +138,39 @@ describe('react-in-style', function() {
         });
 
     });
+    describe('camelCase to-Kebab', function(){
+       var Pic;
+       beforeEach(function() {
+           Pic = React.createClass({
+               render: function() {
+                   return (
+                       React.createElement('SadMan', null,
+                           React.createElement('img', {
+                               src: 'sadman.jpg'
+                           })
+                       )
+                   );
+                }
+            });
+        });
+        it('should style a page', function() {
+            Pic.prototype.style = {
+                    height: '100px',
+                    width: '100px',
+                    backgroundColor: 'red',     
+                    ':hover': {
+                        'background-color': 'blue'
+                    }
+               };
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal('sadman{height:100px; width:100px; background-color:red;}\nsadman:hover{background-color:blue;}\n');
+        });
+        afterEach(function(){
+            render(new Pic());
+        });
+
+    });
     describe('& selector', function(){
         var Pic, stylizedString;
         beforeEach(function(){

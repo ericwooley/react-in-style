@@ -5,6 +5,13 @@ let defaultAddOptions = {
     prefix:false,
     requestAnimationFrame: true
 };
+function toKebab(str){
+    str = str.replace(/([A-Z])/g, '-$1').toLowerCase();
+    if(str[0] === '-'){
+        return str.substring(1);
+    }
+    return str;
+}
 class ReactInStyle {
     constructor(options) {
         this.setOptions(options);
@@ -104,7 +111,7 @@ class ReactInStyle {
             } 
             selector = selector.replace(/&/g, rootSelector);
             if (typeof style[key] !== 'object') {
-                rootStyle += key + ':' + style[key] + '; ';
+                rootStyle += toKebab(key) + ':' + style[key] + '; ';
             } else {
                 if (firstLetter === ':') {
                     spacer = '';
