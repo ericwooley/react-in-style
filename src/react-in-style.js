@@ -1,4 +1,5 @@
-/* global console */
+/* global console, require */
+let autoprefixer = require('autoprefixer-core');
 class ReactInStyle {
     constructor(options) {
         this.setOptions(options);
@@ -43,28 +44,32 @@ class ReactInStyle {
             }
         });
     }
-    add(reactClass, selector, force = false) {
-        if (this.appliedStyles[selector] && !force) {
+    add(reactClass, selector, options = {force: false, prefix:false, requestAnimationFrame: true}) {
+        if (this.appliedStyles[selector] && !options.force) {
             this.log(() => console.error('selector ' + selector + ' already has styles applied'));
         }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         // find a way to do this without being in an animationFrame
-        if (typeof Mocha === 'undefined') {
-            this.applyStyles();
+        if(options.requestAnimationFrame) {
+            this.applyStyles(options);
         } else {
-            this.renderStyles();
+            this.renderStyles(options);
         }
+            
     }
 
-    applyStyles() {
-        this.requestAnimationFrame(this.renderStyles.bind(this));
+    applyStyles(options) {
+        this.requestAnimationFrame(() => this.renderStyles(options));
     }
-    renderStyles() {
+    renderStyles(options) {
         Object.keys(this.unApliedStyles).forEach((selector) => {
             var style = this.unApliedStyles[selector];
             delete this.unApliedStyles[selector];
             this.appliedStyles[selector] = style;
             var styleString = this.objToCss(style, selector);
+            if(options.prefix){
+                styleString = autoprefixer.process(styleString).css;
+            }
             this.styleTag.innerHTML += styleString + '\n';
         });
     }
