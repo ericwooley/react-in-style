@@ -131,15 +131,23 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
                     var rootStyle = "";
                     Object.keys(style).forEach(function (key) {
+                        var spacer = " ",
+                            firstLetter = key[0],
+                            selector = key;
+
+                        if (firstLetter === "&") {
+                            spacer = "";
+                            selector = key.substring(1);
+                            console.log(selector);
+                        }
+                        selector = selector.replace(/&/g, rootSelector);
                         if (typeof style[key] !== "object") {
                             rootStyle += key + ":" + style[key] + "; ";
                         } else {
-                            var spacer = " ";
-                            if (key[0] === ":") {
+                            if (firstLetter === ":") {
                                 spacer = "";
                             }
-
-                            var newKey = rootSelector + spacer + key;
+                            var newKey = rootSelector + spacer + selector;
                             _this.objToCss(style[key], newKey, styles);
                         }
                     });
