@@ -55,5 +55,8 @@
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0",
     "vinyl-source-stream": "^1.0.0"
+  },
+  "dependencies": {
+    "autoprefixer-core": "^5.1.8"
   }
 }
