@@ -9,7 +9,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
     /* global console */
     var react_in_style__defaultAddOptions = {
-        force: false,
+        noWarnings: false,
         prefix: false,
         requestAnimationFrame: true
     };
@@ -129,9 +129,11 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
             },
             log: {
                 value: function log(f) {
-                    if (console) {
-                        f();
-                    }
+                    try {
+                        if (console) {
+                            f();
+                        }
+                    } catch (e) {}
                 }
             },
             objToCss: {
@@ -176,3 +178,5 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
     return react_in_style;
 });
 //# sourceMappingURL=./react-in-style.js.map
+
+// whelp, we tried;
