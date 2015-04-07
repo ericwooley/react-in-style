@@ -83,7 +83,6 @@ class ReactInStyle {
             if (firstLetter === '&') {
                 spacer = '';
                 selector = key.substring(1);
-                console.log(selector);
             } 
             selector = selector.replace(/&/g, rootSelector);
             if (typeof style[key] !== 'object') {
