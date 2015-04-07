@@ -166,6 +166,22 @@ describe('react-in-style', function() {
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal('sadman{height:100px; width:100px; background-color:red;}\nsadman:hover{background-color:blue;}\n');
         });
+        it('should still work with vendor prefixes', function() {
+            Pic.prototype.style = {
+                    height: '100px',
+                    width: '100px',
+                    '-webkit-transform': 'translateY(-100px)',     
+                    ':hover': {
+                        'background-color': 'blue'
+                    }
+               };
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(arrayToStyle([
+                    'sadman{height:100px; width:100px; -webkit-transform:translateY(-100px);}',
+                    'sadman:hover{background-color:blue;}'
+                ]));
+        });
         afterEach(function(){
             render(new Pic());
         });

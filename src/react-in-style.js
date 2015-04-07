@@ -7,9 +7,6 @@ let defaultAddOptions = {
 };
 function toKebab(str){
     str = str.replace(/([A-Z])/g, '-$1').toLowerCase();
-    if(str[0] === '-'){
-        return str.substring(1);
-    }
     return str;
 }
 class ReactInStyle {
