@@ -32,6 +32,7 @@ var ReactInStyle = require('react-in-style');
 
 Pic = React.createClass({
     style: {
+        // & refers to parent selector, similar to SASS
         '&.test': {
             ':hover': {
                 background: '#999'
