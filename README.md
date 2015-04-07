@@ -74,10 +74,24 @@ Pic = React.createClass({
 ## API
 
 * Methods
-    - add(class, selector, force)
+    - add(class, selector, options)
         1. The class with the style object (attached via object.prototype.style)
         2. The selector for the style.
-        3. (Force) true/false: If the selector already has a style, an console error message will appear, unless true is passed in as the force option.
+        3. options (with defaults)
+        ```javascript
+        {
+            // suppress warnings, which occur when the selector is added twice.
+            noWarnings: false,
+
+            // Prefix with css browser prefixors (opt in, large performance hit)
+            prefix: false, 
+            
+            // if false or there is no animtionFrame, react in style will not request an animtation frame
+            // and will insert the styles immediatly.
+            requestAnimationFrame: true
+        }
+        
+        ```(Force) true/false: If the selector already has a style, an console error message will appear, unless true is passed in as the force option.
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
