@@ -76,19 +76,23 @@ class ReactInStyle {
     objToCss(style, rootSelector = '', styles = []) {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {
+            let spacer = ' ',
+            firstLetter = key[0], 
+            selector = key;
+
+            if (firstLetter === '&') {
+                spacer = '';
+                selector = key.substring(1);
+                console.log(selector);
+            } 
+            selector = selector.replace(/&/g, rootSelector);
             if (typeof style[key] !== 'object') {
                 rootStyle += key + ':' + style[key] + '; ';
             } else {
-                let spacer = ' ';
-                var firstLetter = key[0];
                 if (firstLetter === ':') {
                     spacer = '';
-                } else if (firstLetter === '&') {
-                    spacer = '';
-                    key = key.splice(0, 1);
                 }
-
-                var newKey = rootSelector + spacer + key;
+                var newKey = rootSelector + spacer + selector;
                 this.objToCss(style[key], newKey, styles);
             }
         });
