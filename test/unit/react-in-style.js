@@ -4,6 +4,9 @@ function render(item) {
         React.render(item.render(), document.getElementById('playground'));
     }
 }
+function arrayToStyle(arr){
+    return arr.join('\n')+'\n';
+}
 describe('react-in-style', function() {
     beforeEach(function() {
         ReactInStyle.destroy();
@@ -25,7 +28,7 @@ describe('react-in-style', function() {
                     return (
                         React.createElement('SadMan', null,
                             React.createElement('img', {
-                                src: 'http://i.imgur.com/dYJLWdn.jpg',
+                                src: 'sadman.jpg',
                                 height: 75
                             })
                         )
@@ -44,7 +47,7 @@ describe('react-in-style', function() {
                 .to.equal(stylizedString);
             
         });
-        it('recursively should style a page', function() {
+        it('should recursively style a page', function() {
             Pic.prototype.style.img = {
                 width: '50px',
                 height: '50px'
@@ -55,7 +58,7 @@ describe('react-in-style', function() {
                 .to.equal(stylizedString+'sadman img{width:50px; height:50px;}\n');
 
         });
-        it('recursively should style a page at depth 3', function() {
+        it('should recursively style a page at depth 3', function() {
             Pic = React.createClass({
                 style: {
                     height: '100px',
@@ -76,7 +79,7 @@ describe('react-in-style', function() {
                         React.createElement('SadMan', null,
                             React.createElement('div', null,
                                 React.createElement('img', {
-                                    src: 'http://i.imgur.com/dYJLWdn.jpg',
+                                    src: 'sadman.jpg',
                                     height: 75
                                 })
                             )
@@ -118,7 +121,7 @@ describe('react-in-style', function() {
                    return (
                        React.createElement('SadMan', null,
                            React.createElement('img', {
-                               src: 'http://i.imgur.com/dYJLWdn.jpg'
+                               src: 'sadman.jpg'
                            })
                        )
                    );
@@ -135,5 +138,82 @@ describe('react-in-style', function() {
         });
 
     });
-
+    describe('& selector', function(){
+        var Pic, stylizedString;
+        beforeEach(function(){
+            Pic = React.createClass({
+               style: {
+                    height: '100px',
+                    width: '100px',
+                    display: 'block',
+                    'background-color': 'red',
+                    img: {
+                        border: '50px solid black'
+                    }
+               },
+               render: function() {
+                   return (
+                       React.createElement('SadMan', {className:'test'},
+                           React.createElement('img', {
+                               src: 'sadman.jpg',
+                               className: 'test-image'
+                           })
+                       )
+                   );
+                }
+            });
+            stylizedString = 'sadman{height:100px; width:100px; display:block; background-color:red;}';
+        });
+        it('should back reference', function(){
+            Pic.prototype.style['&.test'] = {
+                height: '300px',
+                width: '300px'
+            };
+            ReactInStyle.add(Pic, 'sadman');
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(
+                    arrayToStyle([stylizedString,
+                        'sadman.test{height:300px; width:300px;}',
+                        'sadman img{border:50px solid black;}'])
+                );
+        });
+        it('should recursively back reference', function(){
+            Pic.prototype.style['&.test'] = {
+                height: '300px',
+                width: '300px'
+            };
+            Pic.prototype.style.img['&.test-image'] = {
+                border: '5px solid blue'
+            };
+            ReactInStyle.add(Pic, 'sadman');
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(arrayToStyle([
+                    stylizedString,
+                    'sadman.test{height:300px; width:300px;}',
+                    'sadman img{border:50px solid black;}',
+                    'sadman img.test-image{border:5px solid blue;}'
+                ]));
+        });
+        it('should work with multiple selectors and back reference', function(){
+            Pic.prototype.style['img, &.test'] = {
+                height: '300px',
+                width: '300px',
+                padding: '15px'
+            };
+            Pic.prototype.style.img['&.test-image'] = {
+                padding: 0,
+            };
+            ReactInStyle.add(Pic, 'sadman');
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(arrayToStyle([
+                    stylizedString,
+                    'sadman img, sadman.test{height:300px; width:300px; padding:15px;}',
+                    'sadman img{border:50px solid black;}',
+                    'sadman img.test-image{padding:0;}'
+                ]));
+        });
+        afterEach(function(){
+            render(new Pic());
+        });
+    });
 });

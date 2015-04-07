@@ -1,34 +1,34 @@
 /* global console */
 class ReactInStyle {
-    constructor(options){
+    constructor(options) {
         this.setOptions(options);
-        this.init();   
+        this.init();
     }
-    requestAnimationFrame(func){
-        if(typeof requestAnimationFrame === 'undefined'){
+    requestAnimationFrame(func) {
+        if (typeof requestAnimationFrame === 'undefined') {
             func();
         } else {
             requestAnimationFrame(func);
         }
     }
-    setOptions(options){
+    setOptions(options) {
         options = options || {};
         this.options = options;
         this.inBrowser = typeof document !== 'undefined';
     }
-    init(){
-       this.unApliedStyles = {};
+    init() {
+        this.unApliedStyles = {};
         this.appliedStyles = {};
-        this.initStyleTag(); 
+        this.initStyleTag();
     }
-    destroy(){
-        if(this.styleTag.parentNode){
+    destroy() {
+        if (this.styleTag.parentNode) {
             this.styleTag.parentNode.removeChild(this.styleTag);
         }
         this.init();
     }
-    initStyleTag(){
-        if(this.inBrowser) {
+    initStyleTag() {
+        if (this.inBrowser) {
             this.styleTag = document.createElement('style');
         } else {
             // for unit tests
@@ -36,30 +36,30 @@ class ReactInStyle {
                 innerHTML: ''
             };
         }
-        this.styleTag.id='react-in-style';
+        this.styleTag.id = 'react-in-style';
         this.requestAnimationFrame(() => {
-            if(this.inBrowser){
+            if (this.inBrowser) {
                 document.getElementsByTagName('head')[0].appendChild(this.styleTag);
             }
         });
     }
-    add(reactClass, selector, force = false){
-        if(this.appliedStyles[selector] && !force) {
-            this.log(()=> console.error('selector ' + selector + ' already has styles applied'));
+    add(reactClass, selector, force = false) {
+        if (this.appliedStyles[selector] && !force) {
+            this.log(() => console.error('selector ' + selector + ' already has styles applied'));
         }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         // find a way to do this without being in an animationFrame
-        if(typeof Mocha === 'undefined'){ 
+        if (typeof Mocha === 'undefined') {
             this.applyStyles();
         } else {
             this.renderStyles();
         }
     }
 
-    applyStyles(){
+    applyStyles() {
         this.requestAnimationFrame(this.renderStyles.bind(this));
     }
-    renderStyles(){
+    renderStyles() {
         Object.keys(this.unApliedStyles).forEach((selector) => {
             var style = this.unApliedStyles[selector];
             delete this.unApliedStyles[selector];
@@ -68,24 +68,32 @@ class ReactInStyle {
             this.styleTag.innerHTML += styleString + '\n';
         });
     }
-    log(f){
-        if(console){
+    log(f) {
+        if (console) {
             f();
         }
     }
-    objToCss(style, rootSelector='', styles = []) {
+    objToCss(style, rootSelector = '', styles = []) {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {
-            if(typeof style[key] !== 'object'){
-                rootStyle += key + ':' + style[key]+'; '; 
+            let spacer = ' ',
+            firstLetter = key[0], 
+            selector = key;
+
+            if (firstLetter === '&') {
+                spacer = '';
+                selector = key.substring(1);
+                console.log(selector);
+            } 
+            selector = selector.replace(/&/g, rootSelector);
+            if (typeof style[key] !== 'object') {
+                rootStyle += key + ':' + style[key] + '; ';
             } else {
-               let spacer = ' ';
-               if(key[0] === ':'){
-                   spacer = '';
-               }
-               
-               var newKey = rootSelector + spacer + key;
-               this.objToCss(style[key], newKey, styles);    
+                if (firstLetter === ':') {
+                    spacer = '';
+                }
+                var newKey = rootSelector + spacer + selector;
+                this.objToCss(style[key], newKey, styles);
             }
         });
         styles.unshift(rootSelector.trim() + '{' + rootStyle.trim() + '}');
@@ -93,4 +101,5 @@ class ReactInStyle {
     }
 }
 
-export default new ReactInStyle();
+export
+default new ReactInStyle();
