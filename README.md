@@ -26,20 +26,26 @@ css states. Instead we are reacting in style, allowing you to define how your co
 
 ### Example Usage
 
-Right now this has only been tested on an es6 enviornment. Testing is happening <s>today</s> to make sure it works everywhere.
-
-
 ```javascript
-
+// or include `dist/react-in-style.js`
 var ReactInStyle = require('react-in-style');
+
 Pic = React.createClass({
     style: {
+        '&.test': {
+            ':hover': {
+                background: '#999'
+            }
+        },
         height: '100px',
         width: '100px',
         display: 'block',
         'background-color': 'red',     
         img: {
-            height: '50px'
+            height: '500px',
+            &.thumbnail: {
+                height: '50px'
+            }
         }
         ':hover': {
             'background-color': 'blue'
@@ -66,8 +72,10 @@ Pic = React.createClass({
     <head>
     ...
         <style id="react-in-style">
+            customelement.test:hover {background: #999}
             customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
-            customelement img {height: '50px'} 
+            customelement img {height: '500px'}
+            customelement img.thumbnail {height: '50px'} 
             customelement:hover {background-color: 'blue'}
         </style>    
     </head>
@@ -94,7 +102,7 @@ Pic = React.createClass({
             requestAnimationFrame: true
         }
         
-        ```(Force) true/false: If the selector already has a style, an console error message will appear, unless true is passed in as the force option.
+        ```
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
