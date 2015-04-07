@@ -1,7 +1,7 @@
 /* global console */
 import autoprefixer from 'autoprefixer-core';
 let defaultAddOptions = {
-    force: false,
+    noWarnings: false,
     prefix:false,
     requestAnimationFrame: true
 };
@@ -83,8 +83,12 @@ class ReactInStyle {
         });
     }
     log(f) {
-        if (console) {
-            f();
+        try{
+            if (console) {
+                f();
+            }    
+        } catch(e){
+            // whelp, we tried;
         }
     }
     objToCss(style, rootSelector = '', styles = []) {
