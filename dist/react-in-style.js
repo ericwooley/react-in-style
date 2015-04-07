@@ -3,11 +3,16 @@ var _createClass = (function () { function defineProperties(target, props) { for
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 (function (global, factory) {
-    typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : global.ReactInStyle = factory();
-})(this, function () {
+    typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory(require("autoprefixer-core")) : typeof define === "function" && define.amd ? define(["autoprefixer-core"], factory) : global.ReactInStyle = factory(global.autoprefixer);
+})(this, function (autoprefixer) {
     "use strict";
 
     /* global console */
+    var react_in_style__defaultAddOptions = {
+        force: false,
+        prefix: false,
+        requestAnimationFrame: true
+    };
 
     var ReactInStyle = (function () {
         function ReactInStyle(options) {
@@ -81,29 +86,33 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
             },
             add: {
                 value: function add(reactClass, selector) {
-                    var force = arguments[2] === undefined ? false : arguments[2];
+                    var options = arguments[2] === undefined ? react_in_style__defaultAddOptions : arguments[2];
 
-                    if (this.appliedStyles[selector] && !force) {
+                    if (this.appliedStyles[selector] && !options.force) {
                         this.log(function () {
                             return console.error("selector " + selector + " already has styles applied");
                         });
                     }
                     this.unApliedStyles[selector] = reactClass.prototype.style;
                     // find a way to do this without being in an animationFrame
-                    if (typeof Mocha === "undefined") {
-                        this.applyStyles();
+                    if (options.requestAnimationFrame) {
+                        this.applyStyles(options);
                     } else {
-                        this.renderStyles();
+                        this.renderStyles(options);
                     }
                 }
             },
             applyStyles: {
-                value: function applyStyles() {
-                    this.requestAnimationFrame(this.renderStyles.bind(this));
+                value: function applyStyles(options) {
+                    var _this = this;
+
+                    this.requestAnimationFrame(function () {
+                        return _this.renderStyles(options);
+                    });
                 }
             },
             renderStyles: {
-                value: function renderStyles() {
+                value: function renderStyles(options) {
                     var _this = this;
 
                     Object.keys(this.unApliedStyles).forEach(function (selector) {
@@ -111,6 +120,9 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
                         delete _this.unApliedStyles[selector];
                         _this.appliedStyles[selector] = style;
                         var styleString = _this.objToCss(style, selector);
+                        if (options.prefix) {
+                            styleString = autoprefixer.process(styleString).css;
+                        }
                         _this.styleTag.innerHTML += styleString + "\n";
                     });
                 }

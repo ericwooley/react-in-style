@@ -1,5 +1,10 @@
-/* global console, require */
-let autoprefixer = require('autoprefixer-core');
+/* global console */
+import autoprefixer from 'autoprefixer-core';
+let defaultAddOptions = {
+    force: false,
+    prefix:false,
+    requestAnimationFrame: true
+};
 class ReactInStyle {
     constructor(options) {
         this.setOptions(options);
@@ -44,9 +49,13 @@ class ReactInStyle {
             }
         });
     }
-    add(reactClass, selector, options = {force: false, prefix:false, requestAnimationFrame: true}) {
+    add(reactClass, selector, options = defaultAddOptions) {
         if (this.appliedStyles[selector] && !options.force) {
-            this.log(() => console.error('selector ' + selector + ' already has styles applied'));
+            this.log(() => 
+                console.error(
+                    'selector ' +
+                    selector + 
+                    ' already has styles applied'));
         }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         // find a way to do this without being in an animationFrame
@@ -104,6 +113,4 @@ class ReactInStyle {
         return styles.join('\n');
     }
 }
-
-export
-default new ReactInStyle();
+export default new ReactInStyle();
