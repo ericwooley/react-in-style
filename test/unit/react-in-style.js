@@ -42,7 +42,7 @@ describe('react-in-style', function() {
             render(new Pic());
         });
         it('should style a page', function() {
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(stylizedString);
             
@@ -52,7 +52,7 @@ describe('react-in-style', function() {
                 width: '50px',
                 height: '50px'
             };
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
 
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(stylizedString+'sadman img{width:50px; height:50px;}\n');
@@ -87,7 +87,7 @@ describe('react-in-style', function() {
                     );
                 }
             });
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             /* jshint ignore:start */
             expect(ReactInStyle.styleTag.innerHTML)
                 
@@ -95,12 +95,12 @@ describe('react-in-style', function() {
                 /* jshint ignore:end */
         });
         it('should allow duplicates', function() {
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             Pic.prototype.style = {
                 border: '20px solid blue',
             };
             
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(stylizedString+'sadman{border:20px solid blue;}\n');
         });
@@ -129,7 +129,7 @@ describe('react-in-style', function() {
             });
         });
         it('should style a page', function() {
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal('sadman{height:100px; width:100px; background-color:red;}\nsadman:hover{background-color:blue;}\n');
         });
@@ -169,7 +169,7 @@ describe('react-in-style', function() {
                 height: '300px',
                 width: '300px'
             };
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(
                     arrayToStyle([stylizedString,
@@ -185,7 +185,7 @@ describe('react-in-style', function() {
             Pic.prototype.style.img['&.test-image'] = {
                 border: '5px solid blue'
             };
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(arrayToStyle([
                     stylizedString,
@@ -203,13 +203,55 @@ describe('react-in-style', function() {
             Pic.prototype.style.img['&.test-image'] = {
                 padding: 0,
             };
-            ReactInStyle.add(Pic, 'sadman');
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false});
             expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal(arrayToStyle([
                     stylizedString,
                     'sadman img, sadman.test{height:300px; width:300px; padding:15px;}',
                     'sadman img{border:50px solid black;}',
                     'sadman img.test-image{padding:0;}'
+                ]));
+        });
+        afterEach(function(){
+            render(new Pic());
+        });
+    });
+    describe('css prefixes', function(){
+        var Pic, stylizedString;
+        beforeEach(function(){
+            Pic = React.createClass({
+               style: {
+                    height: '100px',
+                    width: '100px',
+                    display: 'block',
+                    'background-color': 'red',
+                    img: {
+                        border: '50px solid black'
+                    }
+               },
+               render: function() {
+                   return (
+                       React.createElement('SadMan', {className:'test'},
+                           React.createElement('img', {
+                               src: 'sadman.jpg',
+                               className: 'test-image'
+                           })
+                       )
+                   );
+                }
+            });
+            stylizedString = 'sadman{height:100px; width:100px; display:block; background-color:red;}';
+        });
+        it('prefix the transform attribute', function(){
+            Pic.prototype.style['&'] = {
+                'transform': 'translateY(100px)'
+            };
+            ReactInStyle.add(Pic, 'sadman', {prefix: true, requestAnimationFrame: false});
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(arrayToStyle([
+                    stylizedString,
+                    'sadman{-webkit-transform:translateY(100px);-ms-transform:translateY(100px);transform:translateY(100px);}',
+                    'sadman img{border:50px solid black;}'
                 ]));
         });
         afterEach(function(){
