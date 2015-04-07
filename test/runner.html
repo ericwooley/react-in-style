@@ -22,13 +22,22 @@
 
   <!-- Load the built library -->
   <script src='../tmp/__spec-build.js'></script>
-
+  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js'></script>
+  <script type="text/javascript">
+  /* global $ */
+  $(function(){
+    $('#hide-show-button').on('click', function(){
+      $('#playground').slideToggle('fast');
+    });
+  });
+  </script>
   <!-- Add your tests here -->
   <script src='unit/react-in-style.js'></script>
 </head>
 <body>
   <!-- Required for browser reporter -->
   <div id='mocha'></div>
-  <div id='playground'></div>
+  <button id="hide-show-button">Hide/Show demo</button>
+  <div id='playground' style="display:none"></div>
 </body>
 </html>
