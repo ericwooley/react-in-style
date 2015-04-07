@@ -40,7 +40,8 @@ Pic = React.createClass({
         height: '100px',
         width: '100px',
         display: 'block',
-        'background-color': 'red',     
+        // Auto converted to kebab case.
+        backgroundColor: 'red',
         img: {
             height: '500px',
             &.thumbnail: {
