@@ -68,24 +68,28 @@ class ReactInStyle {
             this.styleTag.innerHTML += styleString + '\n';
         });
     }
-    log(f){
-        if(console){
+    log(f) {
+        if (console) {
             f();
         }
     }
-    objToCss(style, rootSelector='', styles = []) {
+    objToCss(style, rootSelector = '', styles = []) {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {
-            if(typeof style[key] !== 'object'){
-                rootStyle += key + ':' + style[key]+'; '; 
+            if (typeof style[key] !== 'object') {
+                rootStyle += key + ':' + style[key] + '; ';
             } else {
-               let spacer = ' ';
-               if(key[0] === ':'){
-                   spacer = '';
-               }
-               
-               var newKey = rootSelector + spacer + key;
-               this.objToCss(style[key], newKey, styles);    
+                let spacer = ' ';
+                var firstLetter = key[0];
+                if (firstLetter === ':') {
+                    spacer = '';
+                } else if (firstLetter === '&') {
+                    spacer = '';
+                    key = key.splice(0, 1);
+                }
+
+                var newKey = rootSelector + spacer + key;
+                this.objToCss(style[key], newKey, styles);
             }
         });
         styles.unshift(rootSelector.trim() + '{' + rootStyle.trim() + '}');
