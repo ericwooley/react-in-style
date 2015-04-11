@@ -1,4 +1,4 @@
-/* global console */
+
 import autoprefixer from 'autoprefixer-core';
 let defaultAddOptions = {
     noWarnings: false,
@@ -54,13 +54,13 @@ class ReactInStyle {
         });
     }
     add(reactClass, selector, options = defaultAddOptions) {
-        if (this.appliedStyles[selector] && !options.force) {
-            this.log(() => 
-                console.error(
-                    'selector ' +
-                    selector + 
-                    ' already has styles applied'));
-        }
+        // if (this.appliedStyles[selector] && !options.force) {
+        //     this.log(() => 
+        //         console.error(
+        //             'selector ' +
+        //             selector + 
+        //             ' already has styles applied'));
+        // }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         this.renderStyles(options);       
     }
@@ -80,15 +80,15 @@ class ReactInStyle {
             
         });
     }
-    log(f) {
-        try{
-            if (console) {
-                f();
-            }    
-        } catch(e){
-            // whelp, we tried;
-        }
-    }
+    // log(f) {
+    //     try{
+    //         if (console) {
+    //             f();
+    //         }    
+    //     } catch(e){
+    //         // whelp, we tried;
+    //     }
+    // }
     objToCss(style, rootSelector = '', styles = []) {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {
