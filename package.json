@@ -4,7 +4,7 @@
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "gulp-uglifyjs": "^0.5.0",
     "harmonize": "^1.4.1",
     "isparta": "^1.0.1",
+    "istanbul": "^0.3.13",
     "jest": "^0.1.39",
     "jest-cli": "*",
     "jshint-stylish": "^1.0.0",

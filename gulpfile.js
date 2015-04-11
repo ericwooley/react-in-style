@@ -133,6 +133,10 @@ function test() {
   //   .pipe($.mocha({reporter: 'dot', globals: config.mochaGlobals}));
   return gulp.src('__tests__').pipe(jest({
               'scriptPreprocessor': __dirname + '/node_modules/babel-jest',
+              'collectCoverage': true,
+              'collectCoverageOnlyFrom' : {
+                './src/react-in-style.js' : true,
+              },
               'testFileExtensions': [
                 'es6',
                 'js'
