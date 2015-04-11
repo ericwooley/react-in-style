@@ -3,9 +3,7 @@
   "version": "0.1.13",
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
-  "scripts": {
-    "test": "jest --coverage"
-  },
+
   "repository": {
     "type": "git",
     "url": "https://github.com/ericwooley/react-in-style.git"
@@ -65,7 +63,15 @@
   "dependencies": {
     "autoprefixer-core": "^5.1.8"
   },
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage"
+  },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageOnlyFrom": {
+      "<rootDir>/src/react-in-style.js": true
+    },
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testFileExtensions": [
       "es6",
