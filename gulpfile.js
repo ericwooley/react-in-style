@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')({
   replaceString: /^gulp(-|\.)([0-9]+)?/
 });
+var jest = require('gulp-jest');
 const fs = require('fs');
 const del = require('del');
 const path = require('path');
@@ -11,6 +12,7 @@ const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const connect = require('gulp-connect');
+require('harmonize')();
 
 // Adjust this file to configure the build
 const config = require('./config');
@@ -126,10 +128,22 @@ gulp.task('coverage', function(done) {
 });
 
 function test() {
-  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
-    .pipe($.plumber())
-    .pipe($.mocha({reporter: 'dot', globals: config.mochaGlobals}));
-};
+  // return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
+  //   .pipe($.plumber())
+  //   .pipe($.mocha({reporter: 'dot', globals: config.mochaGlobals}));
+  return gulp.src('__tests__').pipe(jest({
+              'scriptPreprocessor': __dirname + '/node_modules/babel-jest',
+              'testFileExtensions': [
+                'es6',
+                'js'
+              ],
+              'moduleFileExtensions': [
+                'js',
+                'json',
+                'es6'
+              ],
+      }));
+}
 
 // Lint and run our tests
 gulp.task('test', ['lint:src', 'lint:test'], function() {

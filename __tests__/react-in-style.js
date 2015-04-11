@@ -1,20 +1,36 @@
-/* globals React */
+/* globals require, jest, describe, it, beforeEach, afterEach */
+// jest
+//   .dontMock('../src/react-in-style.js')
+//   .dontMock('autoprefixer-core')
+//   .dontMock('react');
+if(typeof jest !== 'undefined'){
+    jest.autoMockOff();
+    var expect = require('chai').expect;
+    var React = require('react');
+    var ReactInStyle = require('../src/react-in-style');
+    document.body.innerHTML = '<div id="playground" style="display:none"></div>';
+}
+
+
+
+
 function render(item) {
-    if(typeof document !== 'undefined'){
-        React.render(item.render(), document.getElementById('playground'));
-    }
+    React.render(item.render(), document.getElementById('playground'));
 }
 function arrayToStyle(arr){
     return arr.join('\n')+'\n';
 }
 describe('react-in-style', function() {
-    beforeEach(function() {
+    
+    afterEach(function() {
         ReactInStyle.destroy();
     });
     it('should exist', function() {
         expect(ReactInStyle).to.exist();
     });
+    
     describe('rendering', function() {
+
         var Pic, stylizedString;
         beforeEach(function() {
             Pic = React.createClass({
@@ -36,7 +52,7 @@ describe('react-in-style', function() {
                 }
             });
             stylizedString = 'sadman{height:100px; width:100px; display:block; background-color:red;}\n';
-            // render(new Pic());
+            render(new Pic());
         });
         afterEach(function(){
             render(new Pic());

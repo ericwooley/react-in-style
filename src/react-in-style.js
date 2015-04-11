@@ -1,9 +1,8 @@
-/* global console */
+
 import autoprefixer from 'autoprefixer-core';
 let defaultAddOptions = {
     noWarnings: false,
-    prefix:false,
-    requestAnimationFrame: true
+    prefix:false
 };
 function toKebab(str){
     str = str.replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -14,17 +13,9 @@ class ReactInStyle {
         this.setOptions(options);
         this.init();
     }
-    requestAnimationFrame(func, doItNow) {
-        if (doItNow || typeof requestAnimationFrame === 'undefined') {
-            func();
-        } else {
-            requestAnimationFrame(func);
-        }
-    }
     setOptions(options) {
         options = options || {};
         this.options = options;
-        this.inBrowser = typeof document !== 'undefined';
     }
     init() {
         this.unApliedStyles = {};
@@ -38,29 +29,11 @@ class ReactInStyle {
         this.init();
     }
     initStyleTag() {
-        if (this.inBrowser) {
-            this.styleTag = document.createElement('style');
-        } else {
-            // for unit tests
-            this.styleTag = {
-                innerHTML: ''
-            };
-        }
+        this.styleTag = document.createElement('style');
         this.styleTag.id = 'react-in-style';
-        this.requestAnimationFrame(() => {
-            if (this.inBrowser) {
-                document.getElementsByTagName('head')[0].appendChild(this.styleTag);
-            }
-        });
+        document.getElementsByTagName('head')[0].appendChild(this.styleTag);
     }
     add(reactClass, selector, options = defaultAddOptions) {
-        if (this.appliedStyles[selector] && !options.force) {
-            this.log(() => 
-                console.error(
-                    'selector ' +
-                    selector + 
-                    ' already has styles applied'));
-        }
         this.unApliedStyles[selector] = reactClass.prototype.style;
         this.renderStyles(options);       
     }
@@ -73,22 +46,10 @@ class ReactInStyle {
             if(options.prefix){
                 styleString = autoprefixer.process(styleString).css;
             }
-            this.requestAnimationFrame(
-                ()=> this.styleTag.innerHTML += styleString + '\n',
-                !options.requestAnimationFrame
-            );
-            
+            this.styleTag.innerHTML += styleString + '\n';
         });
     }
-    log(f) {
-        try{
-            if (console) {
-                f();
-            }    
-        } catch(e){
-            // whelp, we tried;
-        }
-    }
+
     objToCss(style, rootSelector = '', styles = []) {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {

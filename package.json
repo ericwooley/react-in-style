@@ -4,7 +4,7 @@
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
   "scripts": {
-    "test": "gulp"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/ericwooley/react-in-style",
   "devDependencies": {
     "babel": "^5.0.9",
+    "babel-jest": "*",
     "browserify": "^8.1.1",
     "chai": "^1.10.0",
     "del": "^1.1.1",
@@ -38,6 +39,7 @@
     "gulp-file": "^0.2.0",
     "gulp-filter": "^2.0.0",
     "gulp-istanbul": "^0.6.0",
+    "gulp-jest": "^0.4.0",
     "gulp-jshint": "^1.9.0",
     "gulp-livereload": "^3.4.0",
     "gulp-load-plugins": "^0.8.0",
@@ -47,7 +49,10 @@
     "gulp-rename": "^1.2.0",
     "gulp-sourcemaps": "^1.3.0",
     "gulp-uglifyjs": "^0.5.0",
+    "harmonize": "^1.4.1",
     "isparta": "^1.0.1",
+    "jest": "^0.1.39",
+    "jest-cli": "*",
     "jshint-stylish": "^1.0.0",
     "mocha": "^2.1.0",
     "react": "^0.13.1",
@@ -58,5 +63,17 @@
   },
   "dependencies": {
     "autoprefixer-core": "^5.1.8"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   }
 }
