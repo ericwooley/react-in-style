@@ -3,9 +3,6 @@
   "version": "0.1.13",
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
-  "scripts": {
-    "test": "jest"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ericwooley/react-in-style.git"
@@ -51,6 +48,7 @@
     "gulp-uglifyjs": "^0.5.0",
     "harmonize": "^1.4.1",
     "isparta": "^1.0.1",
+    "istanbul": "^0.3.13",
     "jest": "^0.1.39",
     "jest-cli": "*",
     "jshint-stylish": "^1.0.0",
@@ -63,6 +61,10 @@
   },
   "dependencies": {
     "autoprefixer-core": "^5.1.8"
+  },
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
