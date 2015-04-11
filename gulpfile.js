@@ -12,6 +12,7 @@ const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const connect = require('gulp-connect');
+require('harmonize')();
 
 // Adjust this file to configure the build
 const config = require('./config');
