@@ -1,4 +1,5 @@
 /* globals React */
+
 function render(item) {
     if(typeof document !== 'undefined'){
         React.render(item.render(), document.getElementById('playground'));

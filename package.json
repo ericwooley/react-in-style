@@ -48,15 +48,26 @@
     "gulp-sourcemaps": "^1.3.0",
     "gulp-uglifyjs": "^0.5.0",
     "isparta": "^1.0.1",
+    "jest": "^0.1.39",
     "jshint-stylish": "^1.0.0",
     "mocha": "^2.1.0",
     "react": "^0.13.1",
     "run-sequence": "^1.0.2",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "babel-jest": "*",
+    "jest-cli": "*"
   },
   "dependencies": {
     "autoprefixer-core": "^5.1.8"
+  },
+   "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"]
   }
 }
