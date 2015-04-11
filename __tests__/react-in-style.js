@@ -3,7 +3,7 @@ jest
   .dontMock('../src/react-in-style.js')
   .dontMock('autoprefixer');
 
-var ReactInStyle = require('../src/react-in-style');
+
 
 document.body.innerHTML = '<div id="playground" style="display:none"></div>';
 
@@ -16,6 +16,7 @@ function arrayToStyle(arr){
     return arr.join('\n')+'\n';
 }
 describe('react-in-style', function() {
+    var ReactInStyle = require('../src/react-in-style');
     beforeEach(function() {
         ReactInStyle.destroy();
     });
