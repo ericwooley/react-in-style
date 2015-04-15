@@ -96,15 +96,12 @@ Pic = React.createClass({
             // suppress warnings, which occur when the selector is added twice.
             noWarnings: false,
 
-            // Prefix with css browser prefixors (opt in, large performance hit)
+            // Prefix with css browser prefixors (opt in, large performance hit, *see note below)
             prefix: false, 
-            
-            // if false or there is no animtionFrame, react in style will not request an animtation frame
-            // and will insert the styles immediatly.
-            requestAnimationFrame: true
         }
         
         ```
+        *Prefixes are handled with autoprefixer, and the first time it's used will cause a network request and, therefore a large delay*
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
