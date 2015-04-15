@@ -101,7 +101,7 @@ Pic = React.createClass({
         }
         
         ```
-        *Prefixes are handled with autoprefixer, and the first time it's used will cause a network request and, therefore a large delay*
+        *Prefixes are handled with [autoprefixer](https://github.com/postcss/autoprefixer-core), and the first time it's used will cause a network request and, therefore a large delay*
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
