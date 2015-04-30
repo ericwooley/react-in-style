@@ -55,15 +55,16 @@ Pic = React.createClass({
     },
     render: function() {
         return (
-            React.createElement('CustomElement', null,
+            React.createElement('CustomElement', {className:'test'},
                 React.createElement('img', {
-                    src: 'http://i.imgur.com/dYJLWdn.jpg'
+                    src: 'http://i.imgur.com/dYJLWdn.jpg',
+                    className:'thumbnail'
                 })
             )
         );
      }
  });
- // The second argument is the selector for your element.
+ // The second argument is the selector for your element, can be a .class or #Id or element
  ReactInStyle.add(Pic, 'customelement');
 
  module.exports = Pic;
