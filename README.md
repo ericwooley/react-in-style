@@ -69,6 +69,8 @@ Pic = React.createClass({
 
  module.exports = Pic;
  ```
+ 
+ The above would put a style tag in the head of the page. 
 
 ```html
 <html>
