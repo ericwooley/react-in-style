@@ -33,8 +33,9 @@ class ReactInStyle {
         this.styleTag.id = 'react-in-style';
         document.getElementsByTagName('head')[0].appendChild(this.styleTag);
     }
-    add(reactClass, selector, options = defaultAddOptions) {
-        this.unApliedStyles[selector] = reactClass.prototype.style;
+    add(input, selector, options = defaultAddOptions) {
+        let style = input.prototype.style? input.prototype.style : input;
+        this.unApliedStyles[selector] = style;
         this.renderStyles(options);       
     }
     renderStyles(options) {
