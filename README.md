@@ -105,17 +105,17 @@ Pic = React.createClass({
     - add(class, selector, options)
         1. The class with the style object (attached via object.prototype.style)
         2. The selector for the style.
-        3. options (with defaults)
+        3. options (with examples)
         ```javascript
         {
             // suppress warnings, which occur when the selector is added twice.
-            noWarnings: false,
+            noWarnings: false, // default
 
             // Prefix with css browser prefixors (opt in, large performance hit, *see note below)
-            prefix: false, 
+            prefix: false, // default 
 
             // Will wrap 
-            queiries: ['max-width: 900px', 'orientation: landscape' ... ]
+            queiries: ['max-width: 900px', 'orientation: landscape' ... ] // example
         }
         
         ```
