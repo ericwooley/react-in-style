@@ -42,8 +42,6 @@ class ReactInStyle {
         if(!queries || ! queries.length) {
             return style;
         }
-        /* global console */
-        console.log('joining', queries);
         return `@media (${queries.join(') and (')}) {${style}}`;
     }
     renderStyles(options) {

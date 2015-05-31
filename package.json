@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/ericwooley/react-in-style",
   "devDependencies": {
-    "babel": "^5.0.12",
-    "babel-jest": "*",
+    "babel": "^5.4.7",
+    "babel-jest": "^5.2.0",
     "browserify": "^8.1.1",
     "chai": "^1.10.0",
     "del": "^1.1.1",
