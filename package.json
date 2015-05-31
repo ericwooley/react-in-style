@@ -64,6 +64,7 @@
     "autoprefixer-core": "^5.1.8"
   },
   "scripts": {
+    "prepublish": "gulp build",
     "test": "jest",
     "coverage": "jest --coverage"
   },
