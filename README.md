@@ -29,9 +29,7 @@ css states. Instead we are reacting in style, allowing you to define how your co
 ```javascript
 // or include `dist/react-in-style.js`
 var ReactInStyle = require('react-in-style');
-
-Pic = React.createClass({
-    style: {
+var style = {
         // & refers to parent selector, similar to SASS
         '&.test': {
             ':hover': {
@@ -52,24 +50,37 @@ Pic = React.createClass({
         ':hover': {
             'background-color': 'blue'
         }
-    },
+    };
+Pic = React.createClass({
+    style: style,
     render: function() {
         return (
-            React.createElement('CustomElement', null,
+            React.createElement('CustomElement', {className:'test'},
                 React.createElement('img', {
-                    src: 'http://i.imgur.com/dYJLWdn.jpg'
+                    src: 'http://i.imgur.com/dYJLWdn.jpg',
+                    className:'thumbnail'
                 })
             )
         );
      }
  });
+
  // The second argument is the selector for your element.
  ReactInStyle.add(Pic, 'customelement', {
     queries: ['min-width: 500px', 'max-width: 900px']
  });
 
+// You can also pass in an object directly instead of a class
+// ReactInStyle.add(style, 'customelement', {
+//     queries: ['min-width: 500px', 'max-width: 900px']
+// });
+
+
+
  module.exports = Pic;
  ```
+ 
+ The above would put a style tag in the head of the page. 
 
 ```html
 <html>
@@ -100,18 +111,15 @@ Pic = React.createClass({
             // suppress warnings, which occur when the selector is added twice.
             noWarnings: false,
 
-            // Prefix with css browser prefixors (opt in, large performance hit)
+            // Prefix with css browser prefixors (opt in, large performance hit, *see note below)
             prefix: false, 
-            
-            // if false or there is no animtionFrame, react in style will not request an animtation frame
-            // and will insert the styles immediatly.
-            requestAnimationFrame: true,
 
             // Will wrap 
             queiries: ['max-width: 900px', 'orientation: landscape' ... ]
         }
         
         ```
+        *Prefixes are handled with [autoprefixer](https://github.com/postcss/autoprefixer-core), and the first time it's used will cause a network request and, therefore a large delay*
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests
