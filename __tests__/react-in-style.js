@@ -11,9 +11,6 @@ if(typeof jest !== 'undefined'){
     document.body.innerHTML = '<div id="playground" style="display:none"></div>';
 }
 
-
-
-
 function render(item) {
     React.render(item.render(), document.getElementById('playground'));
 }
@@ -25,7 +22,7 @@ describe('react-in-style', function() {
         ReactInStyle.destroy();
     });
     it('should exist', function() {
-        expect(ReactInStyle).to.exist();
+        expect(ReactInStyle).to.exist;
     });
     
     describe('rendering', function() {

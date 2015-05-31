@@ -1,3 +1,4 @@
+/* globals require, console, __dirname */
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')({
   replaceString: /^gulp(-|\.)([0-9]+)?/
@@ -31,7 +32,7 @@ gulp.task('clean:tmp', function(cb) {
 // so that you know your changes didn't build
 function ding(file) {
   return file.jshint.success ? false : 'JSHint failed';
-};
+}
 
 // Lint our source code
 gulp.task('lint:src', function() {
@@ -59,7 +60,7 @@ gulp.task('build', ['lint:src', 'clean'], function(done) {
     base: 'src',
     entry: config.entryFileName,
   }).then(function(bundle) {
-    res = bundle.toUmd({
+    var res = bundle.toUmd({
       sourceMap: true,
       sourceMapSource: config.entryFileName + '.js',
       sourceMapFile: config.exportFileName + '.js',
@@ -114,19 +115,6 @@ gulp.task('browserify', ['compile_browser_script'], function() {
     .pipe(gulp.dest(''))
     .pipe($.livereload());
 });
-
-gulp.task('coverage', function(done) {
-  gulp.src(['src/*.js'])
-    .pipe($.plumber())
-    .pipe($.istanbul({ instrumenter: isparta.Instrumenter }))
-    .pipe($.istanbul.hookRequire())
-    .on('finish', function() {
-      return test()
-      .pipe($.istanbul.writeReports())
-      .on('end', done);
-    });
-});
-
 function test() {
   // return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
   //   .pipe($.plumber())
@@ -148,6 +136,17 @@ function test() {
               ],
       }));
 }
+gulp.task('coverage', function(done) {
+  gulp.src(['src/*.js'])
+    .pipe($.plumber())
+    .pipe($.istanbul({ instrumenter: isparta.Instrumenter }))
+    .pipe($.istanbul.hookRequire())
+    .on('finish', function() {
+      return test()
+      .pipe($.istanbul.writeReports())
+      .on('end', done);
+    });
+});
 
 // Lint and run our tests
 gulp.task('test', ['lint:src', 'lint:test'], function() {
