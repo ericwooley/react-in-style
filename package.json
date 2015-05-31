@@ -49,6 +49,7 @@
     "harmonize": "^1.4.2",
     "isparta": "^3.0.3",
     "istanbul": "^0.3.14",
+    "jasmine-reporters": "^2.0.6",
     "jest": "^0.1.40",
     "jest-cli": "^0.4.5",
     "jshint-stylish": "^2.0.0",
@@ -67,6 +68,8 @@
     "coverage": "jest --coverage"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageOnlyFrom": {"<rootDir>/src/react-in-style.js": true},
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testFileExtensions": [
       "es6",
