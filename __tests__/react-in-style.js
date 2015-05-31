@@ -21,8 +21,7 @@ function arrayToStyle(arr){
     return arr.join('\n')+'\n';
 }
 describe('react-in-style', function() {
-    
-    afterEach(function() {
+    beforeEach(function() {
         ReactInStyle.destroy();
     });
     it('should exist', function() {
@@ -30,7 +29,6 @@ describe('react-in-style', function() {
     });
     
     describe('rendering', function() {
-
         var Pic, stylizedString;
         beforeEach(function() {
             Pic = React.createClass({
@@ -107,6 +105,42 @@ describe('react-in-style', function() {
             /* jshint ignore:start */
             expect(ReactInStyle.styleTag.innerHTML)
                 
+                .to.equal('sadman{height:100px; width:100px; display:block; border:20px solid red;}\nsadman div{border:20px solid green;}\nsadman div img{height:40px; width:40px; border:10px solid orange;}\n');
+                /* jshint ignore:end */
+        });
+        it('should have work with an object instead of a class', function(){
+            Pic = React.createClass({
+               
+                render: function() {
+                    return (
+                        React.createElement('SadMan', null,
+                            React.createElement('div', null,
+                                React.createElement('img', {
+                                    src: 'sadman.jpg',
+                                    height: 75
+                                })
+                            )
+                        )
+                    );
+                }
+            });
+            var style = {
+                height: '100px',
+                width: '100px',
+                display: 'block',
+                'border': '20px solid red',
+                div: {
+                    border: '20px solid green',
+                    img: {
+                        height: '40px',
+                        width:'40px',
+                        border: '10px solid orange'
+                    }
+                }
+            };
+            ReactInStyle.add(style, 'sadman', {requestAnimationFrame: false});
+            /* jshint ignore:start */
+            expect(ReactInStyle.styleTag.innerHTML)
                 .to.equal('sadman{height:100px; width:100px; display:block; border:20px solid red;}\nsadman div{border:20px solid green;}\nsadman div img{height:40px; width:40px; border:10px solid orange;}\n');
                 /* jshint ignore:end */
         });
@@ -321,6 +355,39 @@ describe('react-in-style', function() {
         });
         afterEach(function(){
             render(new Pic());
+        });
+    });
+    describe('Media Queries', function(){
+        var Pic, stylizedString;
+        beforeEach(function(){
+            Pic = React.createClass({
+               style: {
+                    height: '100px',
+                    width: '100px',
+                    border: '10px solid red'
+               },
+               render: function() {
+                   return (
+                       React.createElement('SadMan', {className:'test'},
+                           React.createElement('img', {
+                               src: 'sadman.jpg',
+                               className: 'test-image'
+                           })
+                       )
+                   );
+                }
+            });
+            stylizedString = '@media (min-width: 500px) and (max-width: 900px) {sadman{height:100px; width:100px; border:10px solid red;}}';
+        });
+        afterEach(function(){
+            render(new Pic());
+        });
+        it('should wrap styles in a media query', function(){
+            ReactInStyle.add(Pic, 'sadman', {requestAnimationFrame: false, queries: ['min-width: 500px', 'max-width: 900px']});
+            expect(ReactInStyle.styleTag.innerHTML)
+                .to.equal(
+                    arrayToStyle([stylizedString])
+                );
         });
     });
 });

@@ -34,9 +34,17 @@ class ReactInStyle {
         document.getElementsByTagName('head')[0].appendChild(this.styleTag);
     }
     add(input, selector, options = defaultAddOptions) {
-        let style = input.prototype.style? input.prototype.style : input;
+        let style = input.prototype && input.prototype.style? input.prototype.style : input;
         this.unApliedStyles[selector] = style;
         this.renderStyles(options);       
+    }
+    applyMediaQuery(queries, style){
+        if(!queries || ! queries.length) {
+            return style;
+        }
+        /* global console */
+        console.log('joining', queries);
+        return `@media (${queries.join(') and (')}) {${style}}`;
     }
     renderStyles(options) {
         Object.keys(this.unApliedStyles).forEach((selector) => {
@@ -47,7 +55,8 @@ class ReactInStyle {
             if(options.prefix){
                 styleString = autoprefixer.process(styleString).css;
             }
-            this.styleTag.innerHTML += styleString + '\n';
+            styleString = this.applyMediaQuery(options.queries, styleString);
+            this.styleTag.innerHTML += styleString.trim() + '\n';
         });
     }
 
