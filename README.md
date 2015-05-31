@@ -64,7 +64,9 @@ Pic = React.createClass({
      }
  });
  // The second argument is the selector for your element.
- ReactInStyle.add(Pic, 'customelement');
+ ReactInStyle.add(Pic, 'customelement', {
+    queries: ['min-width: 500px', 'max-width: 900px']
+ });
 
  module.exports = Pic;
  ```
@@ -74,11 +76,13 @@ Pic = React.createClass({
     <head>
     ...
         <style id="react-in-style">
-            customelement.test:hover {background: #999}
-            customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
-            customelement img {height: '500px'}
-            customelement img.thumbnail {height: '50px'} 
-            customelement:hover {background-color: 'blue'}
+            @media (min-width: 500px) and (max-width: 900px) {
+                customelement.test:hover {background: #999}
+                customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
+                customelement img {height: '500px'}
+                customelement img.thumbnail {height: '50px'} 
+                customelement:hover {background-color: 'blue'}
+            }
         </style>    
     </head>
 </html>
@@ -101,7 +105,10 @@ Pic = React.createClass({
             
             // if false or there is no animtionFrame, react in style will not request an animtation frame
             // and will insert the styles immediatly.
-            requestAnimationFrame: true
+            requestAnimationFrame: true,
+
+            // Will wrap 
+            queiries: ['max-width: 900px', 'orientation: landscape' ... ]
         }
         
         ```
