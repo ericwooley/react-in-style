@@ -14,9 +14,6 @@ if(typeof jest !== 'undefined'){
 function render(item) {
     React.render(item.render(), document.getElementById('playground'));
 }
-function arrayToStyle(arr){
-    return arr.join('\n')+'\n';
-}
 describe('hover states', function(){
    var Pic;
    beforeEach(function() {

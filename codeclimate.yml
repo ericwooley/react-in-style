@@ -8,4 +8,5 @@ exclude_paths:
 - "dist/*"
 - "test/*"
 - "gulpfile.js"
+- "__tests__"
 - "__tests__/*"
