@@ -136,6 +136,8 @@ function test() {
               ],
       }));
 }
+
+// Use `npm coverage` instead, this may or may not work
 gulp.task('coverage', function(done) {
   gulp.src(['src/*.js'])
     .pipe($.plumber())
