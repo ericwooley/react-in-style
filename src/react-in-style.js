@@ -1,7 +1,5 @@
-import autoprefixer from 'autoprefixer-core';
 let defaultAddOptions = {
-    noWarnings: false,
-    prefix:false
+    noWarnings: false
 };
 function toKebab(str){
     str = str.replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -35,7 +33,7 @@ class ReactInStyle {
     add(input, selector, options = defaultAddOptions) {
         let style = input.prototype && input.prototype.style? input.prototype.style : input;
         this.unApliedStyles[selector] = style;
-        this.renderStyles(options);       
+        this.renderStyles(options);
     }
     applyMediaQuery(queries, style){
         if(!queries || ! queries.length) {
@@ -49,9 +47,6 @@ class ReactInStyle {
             delete this.unApliedStyles[selector];
             this.appliedStyles[selector] = style;
             var styleString = this.objToCss(style, selector);
-            if(options.prefix){
-                styleString = autoprefixer.process(styleString).css;
-            }
             styleString = this.applyMediaQuery(options.queries, styleString);
             this.styleTag.innerHTML += styleString.trim() + '\n';
         });
@@ -61,13 +56,13 @@ class ReactInStyle {
         var rootStyle = '';
         Object.keys(style).forEach((key) => {
             let spacer = ' ',
-            firstLetter = key[0], 
+            firstLetter = key[0],
             selector = key;
 
             if (firstLetter === '&') {
                 spacer = '';
                 selector = key.substring(1);
-            } 
+            }
             selector = selector.replace(/&/g, rootSelector);
             if (typeof style[key] !== 'object') {
                 rootStyle += toKebab(key) + ':' + style[key] + '; ';

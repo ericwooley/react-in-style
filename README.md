@@ -16,8 +16,11 @@ Style react components by generating a style tag for all react components in a s
 --------------------------------------------------------------------------------------------------
 ## Motivation
 
-This project was started as an alternative to react style because of it's inabilty to reasonably handle 
+This project was started as an alternative to react style because of it's inabilty to reasonably handle
 css states. Instead we are reacting in style, allowing you to define how your component should look, and creating a style tag in the head of the page which defines your component, hover states and all.
+
+### Breaking changes
+as of 0.21.0 Auto prefixer was removed, because it was causing issues and inflated library size.
 
 ## Installing
 
@@ -79,8 +82,8 @@ Pic = React.createClass({
 
  module.exports = Pic;
  ```
- 
- The above would put a style tag in the head of the page. 
+
+ The above would put a style tag in the head of the page.
 
 ```html
 <html>
@@ -91,10 +94,10 @@ Pic = React.createClass({
                 customelement.test:hover {background: #999}
                 customelement {height: '100px';width: '100px';display: 'block';background-color: 'red'}
                 customelement img {height: '500px'}
-                customelement img.thumbnail {height: '50px'} 
+                customelement img.thumbnail {height: '50px'}
                 customelement:hover {background-color: 'blue'}
             }
-        </style>    
+        </style>
     </head>
 </html>
 ```
@@ -111,15 +114,11 @@ Pic = React.createClass({
             // suppress warnings, which occur when the selector is added twice.
             noWarnings: false, // default
 
-            // Prefix with css browser prefixors (opt in, large performance hit, *see note below)
-            prefix: false, // default 
-
-            // Will wrap 
+            // Will wrap
             queiries: ['max-width: 900px', 'orientation: landscape' ... ] // example
         }
-        
+
         ```
-        *Prefixes are handled with [autoprefixer](https://github.com/postcss/autoprefixer-core), and the first time it's used will cause a network request and, therefore a large delay*
     - destroy() : Destroys all styles and removes all data related to previous adds.
 
 ## Running the unit tests

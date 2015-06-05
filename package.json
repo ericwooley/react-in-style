@@ -1,6 +1,6 @@
 {
   "name": "react-in-style",
-  "version": "0.2.0",
+  "version": "0.21.0",
   "description": "Style react components by generating a style tag for all react components",
   "main": "dist/react-in-style.js",
   "repository": {
@@ -59,9 +59,6 @@
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0",
     "vinyl-source-stream": "^1.1.0"
-  },
-  "dependencies": {
-    "autoprefixer-core": "^5.1.8"
   },
   "scripts": {
     "prepublish": "gulp build",
