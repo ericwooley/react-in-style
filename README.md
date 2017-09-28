@@ -1,5 +1,4 @@
 ### This is in beta, and has not yet reached a stable realease
-*The API may be changed at any point until 1.0 is reached*
 
 [![Build Status](https://travis-ci.org/ericwooley/react-in-style.svg)](https://travis-ci.org/ericwooley/react-in-style)
 [![Code Climate](https://codeclimate.com/github/ericwooley/react-in-style/badges/gpa.svg)](https://codeclimate.com/github/ericwooley/react-in-style)
