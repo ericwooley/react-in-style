@@ -1,4 +1,6 @@
-### This is in beta, and has not yet reached a stable realease
+~### This is in beta, and has not yet reached a stable realease~
+
+This is probably as stable as it will ever be. From now on it will follow semver. So you may depend on this version safely if you want.
 
 [![Build Status](https://travis-ci.org/ericwooley/react-in-style.svg)](https://travis-ci.org/ericwooley/react-in-style)
 [![Code Climate](https://codeclimate.com/github/ericwooley/react-in-style/badges/gpa.svg)](https://codeclimate.com/github/ericwooley/react-in-style)
